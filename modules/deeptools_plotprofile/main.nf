@@ -1,11 +1,23 @@
 #!/usr/bin/env nextflow
 
 process PLOTPROFILE {
-    
+    label 'process_medium'
+    container 'ghcr.io/bf528/deeptools:latest'
+    publishDir params.results, mode: 'copy'
+  
+
+    input:
+        path(matrix)
+
+    output:
+        path "${matrix.baseName}.png"
 
 
-    stub:
+    script:
     """
-    touch ${sample_id}_signal_coverage.png
+    plotProfile \
+        --matrixFile ${matrix} \
+        --outFileName ${matrix.baseName}.png
     """
+
 }

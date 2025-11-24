@@ -1,0 +1,1 @@
+cmd = results/reproducible_peaks/consensus_peaks.bed homer_genomes/hg38 motifs_output/ -size given

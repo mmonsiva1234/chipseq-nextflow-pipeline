@@ -1,0 +1,1 @@
+cmd = results/blacklist_filtered/filtered_peaks.bed /refdata/refs/GRCh38.primary_assembly.genome.fa motifs_test -size given -preparsedDir /data/preparsed -preparse
