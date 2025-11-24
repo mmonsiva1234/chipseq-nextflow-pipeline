@@ -23,3 +23,15 @@ hg19*
 
 __pycache__/
 *.pyc
+
+*.sif
+preparsed/
+motifs_output/
+motifs_test/
+*.tmp
+*.fa
+*.gcbins
+*.cgfreq
+*.pos
+*.seq
+work/
