@@ -1,32 +1,99 @@
-# Project 3 Nextflow Template
+### ChIP-seq Analysis Pipeline with Nextflow
+Overview
+This repository contains a reproducible ChIP-seq analysis pipeline implemented in Nextflow for analyzing transcription factor binding in human cell lines. The workflow processes paired-end sequencing data and performs quality control, alignment, peak calling, and downstream analysis to identify enriched genomic regions.
 
-For this project, remember to keep in a few things:
+The pipeline is modular and containerized, enabling reproducible execution across computing environments.
 
-1. Most of the required references and files can be found in your `nextflow.config`
+Pipeline Workflow
 
-2. Make sure you give each process a label to request an appropriate amount of resources
+The workflow performs the following major steps:
+Quality Control
+FastQC
+Adapter trimming using Trimmomatic
+Read Alignment
+Bowtie2 alignment to the human reference genome (hg38)
+Post-Alignment Processing
+BAM sorting and indexing with Samtools
+Alignment statistics using samtools flagstat
+Quality Aggregation
+MultiQC report summarizing QC metrics
+Signal Visualization
+Generate genome coverage tracks (bigWig) using deepTools
+Quality Assessment
+Correlation analysis between samples using deepTools
+Peak Calling
+HOMER peak calling for each replicate
+Conversion of peak outputs to BED format
+Reproducible Peak Identification
+Intersect replicate peaks using bedtools
+Remove ENCODE blacklist regions
+Peak Annotation
+Annotate peaks to genomic features using HOMER
+Motif Analysis
+Identify enriched transcription factor binding motifs
 
-3. Use the singularity containers provided on the website directions for the project
 
-4. I have given you valid stub commands that will let you troubleshoot your workflow logic using the `-stub-run` command
-- The stub-run commands assume that the first element in the tuple from the initial channel is named `sample_id` in processes
-- Ensure that the appropriate inputs for certain processes are a tuple with the first element being the name from the initial channel
-- The findPeaks stub will not be the same as `sample_id`. Remember that you will need to run findPeaks using the paired samples
-(IP_rep1 + INPUT_rep1) and (IP_rep2 + INPUT_rep2). You should name the peak outputs using the replicate (i.e. rep1_peaks.txt and rep2_peaks.txt)
-- You may alter the names used in the stub-run if it's easier for you
+Technologies Used
+Nextflow
+Docker / Singularity containers
+FastQC
+Trimmomatic
+Bowtie2
+Samtools
+deepTools
+HOMER
+Bedtools
+MultiQC
+Python / Jupyter Notebook
 
-The stub runs assume that you have something like below so that it can name the fake files using the sample names - this will ensure
-that your stub runs execute the same number of processes as the full pipeline should.
-```
-input:
-tuple val(sample_id), path(file)
-```
+Input Data
+The pipeline processes paired ChIP-seq experiments consisting of:
+IP samples – immunoprecipitated DNA fragments enriched for the transcription factor
+INPUT samples – background control samples
 
-5. Use the subsampled data to start out with - you may need to eventually switch to the full data before your
-pipeline is technically complete as sometimes peak calling may fail if not given enough input reads. 
-- When the pipeline is working, change the `params` value in the original channel to the params encoding the
-location of the full_samplesheet.csv
+Each experiment contains two biological replicates:
+IP_rep1
+INPUT_rep1
+IP_rep2
+INPUT_rep2
+Running the Pipeline
 
-6. To remove regions using the blacklist, there are optional flags available in the `bedtools intersect` command
 
-7. Create a single jupyter notebook that contains all of the results / figures and your write-up
+Run the workflow:
+nextflow run main.nf
+
+To test the pipeline using stub commands:
+nextflow run main.nf -stub-run
+
+Output
+Key outputs include:
+Quality control reports (MultiQC)
+Sorted and indexed BAM files
+Genome coverage tracks (bigWig)
+Correlation plots between samples
+Peak calls for each replicate
+Reproducible filtered peaks
+Peak annotation results
+Motif enrichment analysis
+
+Project Results
+All final figures, analysis, and interpretation are provided in the Jupyter notebook:
+Project3_Final_Report.ipynb
+The notebook includes:
+Correlation analysis
+Signal intensity plots
+Motif enrichment results
+Comparison with findings from the original publication
+
+Reproducibility
+Each pipeline step runs within isolated containers, ensuring consistent results across systems.
+
+Container images used:
+FastQC
+MultiQC
+Bowtie2
+deepTools
+Trimmomatic
+Samtools
+Bedtools
+HOMER
